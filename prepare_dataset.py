@@ -17,11 +17,13 @@ TRAIN_RATIO = 0.7
 VAL_RATIO = 0.15
 
 
-def get_image_files(directory):
+def get_image_files(directory, exclude_annotations=False):
     exts = ('*.png', '*.jpg', '*.jpeg', '*.PNG', '*.JPG', '*.JPEG')
     files = []
     for ext in exts:
         files.extend(glob.glob(os.path.join(directory, ext)))
+    if exclude_annotations:
+        files = [f for f in files if '_Annotation' not in os.path.basename(f)]
     return sorted(files)
 
 
@@ -65,15 +67,27 @@ def main():
 
     print(f"  Real -> Train: {len(real_train)}, Val: {len(real_val)}, Test: {len(real_test)}")
 
-    synthetic_files = get_image_files(SYNTHETIC_SB_DIR)
-    print(f"Synthetic Spina Bifida images found: {len(synthetic_files)}")
+    synthetic_files = get_image_files(SYNTHETIC_SB_DIR, exclude_annotations=True)
+    print(f"Synthetic Spina Bifida images found (annotations excluded): {len(synthetic_files)}")
 
     target_synthetic_train = len(n_train) - len(real_train)
     target_synthetic_val = len(n_val) - len(real_val)
 
+    # If not enough synthetic images to fully balance both splits, allocate them
+    # proportionally (train_r : val_r) so that val still gets some synthetic images.
+    total_needed = target_synthetic_train + target_synthetic_val
     random.shuffle(synthetic_files)
-    syn_train = synthetic_files[:target_synthetic_train]
-    syn_val = synthetic_files[target_synthetic_train:target_synthetic_train + target_synthetic_val]
+    if len(synthetic_files) >= total_needed:
+        syn_train = synthetic_files[:target_synthetic_train]
+        syn_val = synthetic_files[target_synthetic_train:target_synthetic_train + target_synthetic_val]
+    else:
+        train_share = int(len(synthetic_files) * TRAIN_RATIO / (TRAIN_RATIO + VAL_RATIO))
+        syn_train = synthetic_files[:train_share]
+        syn_val = synthetic_files[train_share:]
+        print(
+            f"  Warning: only {len(synthetic_files)} synthetic images available (needed {total_needed}). "
+            "Allocating proportionally; class imbalance will exist — use class weights during training."
+        )
 
     print(f"  Synthetic -> Train: {len(syn_train)}, Val: {len(syn_val)}")
 

@@ -4,23 +4,191 @@
     "split_counts": {
       "train": {
         "Normal": 699,
-        "Spina_Bifida": 699
+        "Spina_Bifida": 527
       },
       "val": {
         "Normal": 150,
-        "Spina_Bifida": 150
+        "Spina_Bifida": 142
       },
       "test": {
         "Normal": 150,
         "Spina_Bifida": 49
       }
     },
-    "total_images": 1897,
+    "total_images": 1717,
     "unreadable_count": 0,
     "duplicate_hash_groups": 0,
-    "cross_split_leakage_groups": 0
+    "cross_split_leakage_groups": 0,
+    "annotation_overlay_count": 0,
+    "provenance_counts": {
+      "train": {
+        "Normal": {
+          "normal": 699
+        },
+        "Spina_Bifida": {
+          "synthetic_lemon": 490,
+          "real_sb": 37
+        }
+      },
+      "val": {
+        "Normal": {
+          "normal": 150
+        },
+        "Spina_Bifida": {
+          "synthetic_lemon": 105,
+          "real_sb": 37
+        }
+      },
+      "test": {
+        "Normal": {
+          "normal": 150
+        },
+        "Spina_Bifida": {
+          "real_sb": 49
+        }
+      }
+    },
+    "balance_warnings": [
+      {
+        "split": "test",
+        "counts": {
+          "Normal": 150,
+          "Spina_Bifida": 49
+        },
+        "imbalance_ratio": 3.061,
+        "warning": "Class imbalance exceeds 1.5:1 \u2014 report class weights or resampling in the paper."
+      }
+    ],
+    "clinical_flags": [
+      {
+        "severity": "MEDIUM",
+        "flag": "high_synthetic_ratio_in_training",
+        "detail": "93.0% of train/Spina_Bifida images are synthetic (lemon_v2_* images created by warping HC18 head-circumference scans). For publication, clearly state the synthetic augmentation methodology, validate that the synthetic lemon-sign transformation is clinically realistic, and consider recruiting additional real fetal ultrasound cases."
+      },
+      {
+        "severity": "MEDIUM",
+        "flag": "test_set_class_imbalance",
+        "detail": "Test set contains 150 Normal vs 49 Spina_Bifida images (3.1:1 ratio). Report per-class metrics (sensitivity, specificity, AUC) rather than accuracy alone."
+      },
+      {
+        "severity": "HIGH",
+        "flag": "brightness_domain_gap",
+        "detail": "Mean pixel brightness in test/Spina_Bifida (78.6) is 2.0\u00d7 higher than test/Normal (39.2). This indicates a domain gap: Normal images are dark raw ultrasound scans (HC18 dataset) while Spina_Bifida test panels include bright backgrounds, labels, and colour bars from paper figures. The model may learn brightness/background instead of pathology. Normalise brightness or use centre-crop to exclude non-ultrasound regions."
+      }
+    ]
+  },
+  "image_stats": {
+    "train/Normal": {
+      "count": 699,
+      "width": {
+        "min": 738,
+        "max": 800,
+        "mean": 799.7
+      },
+      "height": {
+        "min": 539,
+        "max": 545,
+        "mean": 540.1
+      },
+      "mean_brightness": {
+        "min": 11.54,
+        "max": 78.34,
+        "mean": 40.11
+      }
+    },
+    "train/Spina_Bifida": {
+      "count": 527,
+      "width": {
+        "min": 200,
+        "max": 800,
+        "mean": 763.2
+      },
+      "height": {
+        "min": 78,
+        "max": 1244,
+        "mean": 524.1
+      },
+      "mean_brightness": {
+        "min": 9.47,
+        "max": 172.05,
+        "mean": 34.88
+      }
+    },
+    "val/Normal": {
+      "count": 150,
+      "width": {
+        "min": 780,
+        "max": 800,
+        "mean": 799.8
+      },
+      "height": {
+        "min": 539,
+        "max": 563,
+        "mean": 540.2
+      },
+      "mean_brightness": {
+        "min": 11.38,
+        "max": 82.66,
+        "mean": 38.8
+      }
+    },
+    "val/Spina_Bifida": {
+      "count": 142,
+      "width": {
+        "min": 200,
+        "max": 800,
+        "mean": 665.5
+      },
+      "height": {
+        "min": 78,
+        "max": 1622,
+        "mean": 492.3
+      },
+      "mean_brightness": {
+        "min": 10.22,
+        "max": 186.65,
+        "mean": 43.71
+      }
+    },
+    "test/Normal": {
+      "count": 150,
+      "width": {
+        "min": 780,
+        "max": 800,
+        "mean": 799.7
+      },
+      "height": {
+        "min": 540,
+        "max": 544,
+        "mean": 540.1
+      },
+      "mean_brightness": {
+        "min": 11.02,
+        "max": 71.99,
+        "mean": 39.2
+      }
+    },
+    "test/Spina_Bifida": {
+      "count": 49,
+      "width": {
+        "min": 200,
+        "max": 800,
+        "mean": 311.5
+      },
+      "height": {
+        "min": 127,
+        "max": 800,
+        "mean": 295.4
+      },
+      "mean_brightness": {
+        "min": 32.64,
+        "max": 155.0,
+        "mean": 78.62
+      }
+    }
   },
   "unreadable_files": [],
+  "annotation_files": [],
   "duplicates": [],
   "cross_split_leakage": []
 }
