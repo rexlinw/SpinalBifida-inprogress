@@ -1,15 +1,8 @@
-# Python virtual environment
 .venv/
-
-# Python cache
 __pycache__/
 *.pyc
-
-# Models
 *.keras
 *.h5
 *.pt
-
-# Mac files
 .DS_Store
-
+training_curves.png

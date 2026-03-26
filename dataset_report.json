@@ -1,0 +1,26 @@
+{
+  "summary": {
+    "dataset_root": "dataset_prepared",
+    "split_counts": {
+      "train": {
+        "Normal": 699,
+        "Spina_Bifida": 699
+      },
+      "val": {
+        "Normal": 150,
+        "Spina_Bifida": 150
+      },
+      "test": {
+        "Normal": 150,
+        "Spina_Bifida": 49
+      }
+    },
+    "total_images": 1897,
+    "unreadable_count": 0,
+    "duplicate_hash_groups": 0,
+    "cross_split_leakage_groups": 0
+  },
+  "unreadable_files": [],
+  "duplicates": [],
+  "cross_split_leakage": []
+}

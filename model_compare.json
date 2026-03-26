@@ -1,0 +1,20 @@
+[
+  {
+    "architecture": "vgg16",
+    "params": 14862594,
+    "build_time_s": 0.5915,
+    "single_forward_ms": 752.331
+  },
+  {
+    "architecture": "resnet50",
+    "params": 24128834,
+    "build_time_s": 125.0526,
+    "single_forward_ms": 759.5
+  },
+  {
+    "architecture": "efficientnetb0",
+    "params": 4394085,
+    "build_time_s": 26.1676,
+    "single_forward_ms": 1706.6848
+  }
+]

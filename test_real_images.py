@@ -1,52 +1,74 @@
+import sys
+import os
 import tensorflow as tf
 import numpy as np
 import cv2
-import os
 
-# CONFIGURATION
-MODEL_PATH = 'spina_bifida_model.keras'
-TEST_FOLDER = 'test_images'
-IMG_SIZE = (224, 224)
+from config import ProjectConfig
 
-# Load the trained brain
-print(f"🧠 Loading {MODEL_PATH}...")
-model = tf.keras.models.load_model(MODEL_PATH)
-
-# Get the class names (Check your training output to be sure of the order!)
-# Usually it is alphabetical: ['Normal', 'Spina_Bifida']
+CFG = ProjectConfig()
+MODEL_PATH = CFG.model_path
+IMG_SIZE = CFG.image_size
 CLASS_NAMES = ['Normal', 'Spina_Bifida']
 
-def predict_image(image_path):
-    # 1. Read & Preprocess
+
+def predict_image(image_path, model):
     img = cv2.imread(image_path)
     if img is None:
-        print(f"❌ Error: Could not read {image_path}")
+        print(f"  Error: Could not read {image_path}")
         return
 
-    # Resize to match training input
     img_resized = cv2.resize(img, IMG_SIZE)
-    
-    # Normalize (0-255 -> 0-1) just like in training
     img_array = img_resized.astype('float32') / 255.0
-    
-    # Add batch dimension (1, 224, 224, 3)
     img_batch = np.expand_dims(img_array, axis=0)
 
-    # 2. Predict
     predictions = model.predict(img_batch, verbose=0)
     score = predictions[0]
-    
-    # 3. Interpret
     predicted_class = CLASS_NAMES[np.argmax(score)]
-    confidence = 100 * np.max(score)
+    confidence_raw = float(np.max(score))
+    confidence_pct = 100 * confidence_raw
 
-    print(f"🖼️  Image: {os.path.basename(image_path)}")
-    print(f"   prediction: {predicted_class} ({confidence:.2f}%)")
-    print(f"   Raw Scores: Normal: {score[0]:.4f} | Spina Bifida: {score[1]:.4f}")
-    print("-" * 30)
+    if confidence_raw < CFG.prediction_uncertain_threshold:
+        decision = f"UNCERTAIN (< {CFG.prediction_uncertain_threshold:.2f})"
+    else:
+        decision = predicted_class
 
-# Run on all images in folder
-print("\n🔍 STARTING DIAGNOSIS...\n" + "="*30)
-for file in os.listdir(TEST_FOLDER):
-    if file.lower().endswith(('.png', '.jpg', '.jpeg')):
-        predict_image(os.path.join(TEST_FOLDER, file))
+    print(f"  {os.path.basename(image_path):40s} -> {decision} ({confidence_pct:.2f}%)"
+          f"  [Normal: {score[0]:.4f} | Spina_Bifida: {score[1]:.4f}]")
+
+
+def collect_images(args):
+    paths = []
+    for arg in args:
+        if os.path.isdir(arg):
+            for cls in sorted(os.listdir(arg)):
+                cls_dir = os.path.join(arg, cls)
+                if os.path.isdir(cls_dir):
+                    for f in sorted(os.listdir(cls_dir)):
+                        if f.lower().endswith(('.png', '.jpg', '.jpeg')):
+                            paths.append(os.path.join(cls_dir, f))
+                elif cls.lower().endswith(('.png', '.jpg', '.jpeg')):
+                    paths.append(os.path.join(arg, cls))
+        elif os.path.isfile(arg):
+            paths.append(arg)
+    return paths
+
+
+if __name__ == '__main__':
+    if len(sys.argv) < 2:
+        target = 'dataset_prepared/test'
+        print(f"No arguments provided. Running on: {target}\n")
+        paths = collect_images([target])
+    else:
+        paths = collect_images(sys.argv[1:])
+
+    if not paths:
+        print("No images found.")
+        sys.exit(1)
+
+    print(f"Loading {MODEL_PATH}...")
+    model = tf.keras.models.load_model(MODEL_PATH)
+    print(f"Running inference on {len(paths)} images...\n")
+
+    for path in paths:
+        predict_image(path, model)

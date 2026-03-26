@@ -1,0 +1,43 @@
+filename,source_pmc,paper_title,figure_num,description,license,shows_spina_bifida,image_type
+pmc8436766_fig2_chiari_lemon_banana.jpg,PMC8436766,"Cranial findings detected by second-trimester ultrasound in fetuses with myelomeningocele (BJOG 2021)",Fig2,"Classic Chiari II: lemon sign + banana sign + transventricular views",CC-BY-4.0,yes,composite_panel
+pmc8436766_fig3_ventriculomegaly_cranial.jpg,PMC8436766,"Cranial findings detected by second-trimester ultrasound in fetuses with myelomeningocele (BJOG 2021)",Fig3,"Ventriculomegaly + pointed occipital horn + midline cyst",CC-BY-4.0,yes,composite_panel
+pmc4945507_fig1_lemon_sign_spine.jpg,PMC4945507,"Prenatal diagnosis and assessment of congenital spinal anomalies (World J Orthop 2016)",Fig1,"Lemon-shaped skull + spine defect ultrasound",CC-BY-NC-4.0,yes,composite_panel
+pmc4945507_fig2_banana_sign_chiari.jpg,PMC4945507,"Prenatal diagnosis and assessment of congenital spinal anomalies (World J Orthop 2016)",Fig2,"Banana-shaped cerebellum + Chiari II views",CC-BY-NC-4.0,yes,composite_panel
+pmc4945507_fig5_spinal_dysraphism.jpg,PMC4945507,"Prenatal diagnosis and assessment of congenital spinal anomalies (World J Orthop 2016)",Fig5,"Spinal dysraphism coronal 3D + sagittal 2D",CC-BY-NC-4.0,yes,composite_panel
+pmc4945507_fig6_spinal_tether.jpg,PMC4945507,"Prenatal diagnosis and assessment of congenital spinal anomalies (World J Orthop 2016)",Fig6,"Spinal tether with low-lying conus",CC-BY-NC-4.0,yes,composite_panel
+pmc7700296_fig1_normal_anatomy.jpg,PMC7700296,"Intracranial Translucency screening for NTDs (Diagnostics 2020)",Fig1,"Normal mid-sagittal fetal brain anatomy",CC-BY-4.0,no,composite_panel
+pmc7700296_fig2_case1_brainstem.jpg,PMC7700296,"Intracranial Translucency screening for NTDs (Diagnostics 2020)",Fig2,"Case 1: brainstem abnormality",CC-BY-4.0,yes,composite_panel
+pmc7700296_fig3_case2_lemon_banana.jpg,PMC7700296,"Intracranial Translucency screening for NTDs (Diagnostics 2020)",Fig3,"Case 2: lemon sign + banana sign + L5-S1 defect",CC-BY-4.0,yes,composite_panel
+pmc7700296_fig4_case3_myelomeningocele.jpg,PMC7700296,"Intracranial Translucency screening for NTDs (Diagnostics 2020)",Fig4,"Case 3: myelomeningocele sagittal/axial",CC-BY-4.0,yes,composite_panel
+pmc7700296_fig5_case4_ntd.jpg,PMC7700296,"Intracranial Translucency screening for NTDs (Diagnostics 2020)",Fig5,"Case 4: neural tube defect + absent IT",CC-BY-4.0,yes,composite_panel
+pmc7700296_fig6_case5_absent_IT.jpg,PMC7700296,"Intracranial Translucency screening for NTDs (Diagnostics 2020)",Fig6,"Case 5: absent intracranial translucency",CC-BY-4.0,yes,composite_panel
+pmc7700296_fig7_case6_encephalocele.jpg,PMC7700296,"Intracranial Translucency screening for NTDs (Diagnostics 2020)",Fig7,"Case 6: occipital encephalocele",CC-BY-4.0,yes,composite_panel
+pmc4898641_fig4_mmc_lemon_banana_signs.jpg,PMC4898641,"Spina bifida (Nat Rev Dis Primers 2015)",Fig4,"Normal vs MMC: spine views + lemon sign + banana sign (8 panels)",Author manuscript,yes,composite_panel
+pmc9857041_fig1_ftas_protocol.jpg,PMC9857041,"First Trimester US Detection of Fetal CNS Anomalies (Brain Sci 2023)",Fig1,"FTAS protocol showing normal CNS evaluation landmarks",CC-BY-4.0,no,composite_panel
+pmc9857041_fig3_osb_case1.jpg,PMC9857041,"First Trimester US Detection of Fetal CNS Anomalies (Brain Sci 2023)",Fig3,"Open spina bifida case 1 at 12w+3d",CC-BY-4.0,yes,composite_panel
+pmc9857041_fig4_osb_case3.jpg,PMC9857041,"First Trimester US Detection of Fetal CNS Anomalies (Brain Sci 2023)",Fig4,"Open spina bifida case 3 at 13w+2d",CC-BY-4.0,yes,composite_panel
+pmc9857041_fig5_cephalocele.jpg,PMC9857041,"First Trimester US Detection of Fetal CNS Anomalies (Brain Sci 2023)",Fig5,"Occipital cephalocele at 13w+6d",CC-BY-4.0,yes,composite_panel
+pmc10309335_fig1_2d_spina_bifida.jpg,PMC10309335,"2D vs 3D US Evaluation of Lesion Level in Spina Bifida (Rev Bras Ginecol Obstet 2017)",Fig1,"2D ultrasound showing spina bifida lesion level landmarks",CC-BY-4.0,yes,single_us
+pmc10309335_fig2_3d_spina_bifida.jpg,PMC10309335,"2D vs 3D US Evaluation of Lesion Level in Spina Bifida (Rev Bras Ginecol Obstet 2017)",Fig2,"3D ultrasound showing spina bifida lesion level landmarks",CC-BY-4.0,yes,single_us
+pmc7545505_fig1_spinal_defect_brain.jpg,PMC7545505,"First trimester closed spina bifida with myelomeningocele (BMJ Case Rep 2020)",Fig1,"Spinal defect + brain views (9 panels)",CC-BY-NC-4.0,yes,composite_panel
+pmc7545505_fig2_body_stalk.jpg,PMC7545505,"First trimester closed spina bifida with myelomeningocele (BMJ Case Rep 2020)",Fig2,"Body stalk anomaly US features",CC-BY-NC-4.0,yes,composite_panel
+pmc9914716_fig3_normal_ventricles.jpg,PMC9914716,"Absence of Hernia Sack in Spina Bifida Repair (Diagnostics 2023)",Fig3,"Normal fontanelle US ventricles (postnatal)",CC-BY-4.0,no,single_us
+pmc9914716_fig4_ventriculomegaly.jpg,PMC9914716,"Absence of Hernia Sack in Spina Bifida Repair (Diagnostics 2023)",Fig4,"Ventriculomegaly requiring VP shunt (postnatal)",CC-BY-4.0,yes,single_us
+pmc11269449_fig1_lumbosacral_ntd.jpg,PMC11269449,"Newborn with prenatal diagnosis lumbosacral NTD",Fig1,"Prenatal US showing lumbosacral neural tube defect",Open Access,yes,composite_panel
+pmc5024920_fig2_normal_3d_spine.jpg,PMC5024920,"Sonographic classification of fetal spinal anomalies (AJUM 2014)",Fig2,"Normal 3D rendered spine at different gestations",CC-BY,no,composite_panel
+pmc5024920_fig3_transverse_spine.jpg,PMC5024920,"Sonographic classification of fetal spinal anomalies (AJUM 2014)",Fig3,"Transverse spine views at 20 weeks",CC-BY,no,composite_panel
+pmc5024920_fig4_sagittal_conus.jpg,PMC5024920,"Sonographic classification of fetal spinal anomalies (AJUM 2014)",Fig4,"Sagittal spine showing conus medullaris",CC-BY,no,single_us
+pmc5024920_fig5_coronal_ossification.jpg,PMC5024920,"Sonographic classification of fetal spinal anomalies (AJUM 2014)",Fig5,"Coronal spine showing ossification centres",CC-BY,no,single_us
+pmc5024920_fig6_3d_spine_ribs.jpg,PMC5024920,"Sonographic classification of fetal spinal anomalies (AJUM 2014)",Fig6,"3D rendered spine and rib cage at 20 weeks",CC-BY,no,single_us
+pmc5024920_fig7_multiplanar_conus.jpg,PMC5024920,"Sonographic classification of fetal spinal anomalies (AJUM 2014)",Fig7,"Multiplanar imaging for conus medullaris level",CC-BY,no,composite_panel
+pmc5024920_fig10_abnormal_curvature.jpg,PMC5024920,"Sonographic classification of fetal spinal anomalies (AJUM 2014)",Fig10,"Abnormal spine curvature in 3 cases",CC-BY,yes,composite_panel
+pmc5024920_fig11_cleft_vertebrae.jpg,PMC5024920,"Sonographic classification of fetal spinal anomalies (AJUM 2014)",Fig11,"Cleft thoracic vertebrae (3D US + post mortem)",CC-BY,yes,composite_panel
+pmc5024920_fig12_block_vertebrae.jpg,PMC5024920,"Sonographic classification of fetal spinal anomalies (AJUM 2014)",Fig12,"Block vertebrae (3D US + postnatal radiograph)",CC-BY,yes,composite_panel
+pmc5024920_fig13_hemivertebra.jpg,PMC5024920,"Sonographic classification of fetal spinal anomalies (AJUM 2014)",Fig13,"T6 hemivertebra (3D US + postnatal radiograph)",CC-BY,yes,composite_panel
+pmc5024920_fig14_chiari_ii_cranial.jpg,PMC5024920,"Sonographic classification of fetal spinal anomalies (AJUM 2014)",Fig14,"Chiari II cranial features (lemon + banana signs)",CC-BY,yes,composite_panel
+pmc5024920_fig15_open_ntd_vertebral.jpg,PMC5024920,"Sonographic classification of fetal spinal anomalies (AJUM 2014)",Fig15,"Open NTD vertebral features (transverse/coronal/sagittal)",CC-BY,yes,composite_panel
+pmc5024920_fig16_3d_open_ntd.jpg,PMC5024920,"Sonographic classification of fetal spinal anomalies (AJUM 2014)",Fig16,"3D rendered open NTD vs normal spine",CC-BY,yes,composite_panel
+pmc5024920_fig17_lipomeningocele.jpg,PMC5024920,"Sonographic classification of fetal spinal anomalies (AJUM 2014)",Fig17,"Lipomeningocele sagittal/coronal/transverse",CC-BY,yes,composite_panel
+pmc5024920_fig18_lipomeningocele_mixed.jpg,PMC5024920,"Sonographic classification of fetal spinal anomalies (AJUM 2014)",Fig18,"Lipomeningocele US + post mortem",CC-BY,yes,composite_panel
+pmc5024920_fig20_sacral_agenesis.jpg,PMC5024920,"Sonographic classification of fetal spinal anomalies (AJUM 2014)",Fig20,"Sacral agenesis coronal view vs normal",CC-BY,yes,composite_panel
+pmc5024920_fig21_sacral_agenesis_sag.jpg,PMC5024920,"Sonographic classification of fetal spinal anomalies (AJUM 2014)",Fig21,"Sacral agenesis sagittal view vs normal",CC-BY,yes,composite_panel
