@@ -69,11 +69,6 @@
         "severity": "MEDIUM",
         "flag": "test_set_class_imbalance",
         "detail": "Test set contains 150 Normal vs 49 Spina_Bifida images (3.1:1 ratio). Report per-class metrics (sensitivity, specificity, AUC) rather than accuracy alone."
-      },
-      {
-        "severity": "HIGH",
-        "flag": "brightness_domain_gap",
-        "detail": "Mean pixel brightness in test/Spina_Bifida (78.6) is 2.0\u00d7 higher than test/Normal (39.2). This indicates a domain gap: Normal images are dark raw ultrasound scans (HC18 dataset) while Spina_Bifida test panels include bright backgrounds, labels, and colour bars from paper figures. The model may learn brightness/background instead of pathology. Normalise brightness or use centre-crop to exclude non-ultrasound regions."
       }
     ]
   },
@@ -110,8 +105,8 @@
       },
       "mean_brightness": {
         "min": 9.47,
-        "max": 172.05,
-        "mean": 34.88
+        "max": 63.59,
+        "mean": 32.98
       }
     },
     "val/Normal": {
@@ -146,8 +141,8 @@
       },
       "mean_brightness": {
         "min": 10.22,
-        "max": 186.65,
-        "mean": 43.71
+        "max": 59.59,
+        "mean": 34.84
       }
     },
     "test/Normal": {
@@ -181,9 +176,9 @@
         "mean": 295.4
       },
       "mean_brightness": {
-        "min": 32.64,
-        "max": 155.0,
-        "mean": 78.62
+        "min": 44.11,
+        "max": 44.78,
+        "mean": 44.5
       }
     }
   },

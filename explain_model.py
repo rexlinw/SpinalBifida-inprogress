@@ -9,6 +9,15 @@ IMG_SIZE = (224, 224)
 CLASS_NAMES = ['Normal', 'Spina_Bifida']
 
 
+def _clahe_normalise(img_bgr: np.ndarray) -> np.ndarray:
+    """Apply CLAHE on the L channel to normalise brightness before inference."""
+    img_rgb = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
+    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+    lab = cv2.cvtColor(img_rgb, cv2.COLOR_RGB2LAB)
+    lab[:, :, 0] = clahe.apply(lab[:, :, 0])
+    return cv2.cvtColor(lab, cv2.COLOR_LAB2RGB)
+
+
 def make_gradcam_heatmap(img_array, model, last_conv_layer_name='block5_conv3'):
     grad_model = tf.keras.models.Model(
         inputs=[model.inputs],
@@ -38,7 +47,8 @@ def explain_image(image_path, model, save_path=None):
         return
 
     original_img = cv2.resize(img, IMG_SIZE)
-    img_array = original_img.astype('float32') / 255.0
+    original_rgb = _clahe_normalise(original_img)
+    img_array = original_rgb.astype('float32') / 255.0
     img_array = np.expand_dims(img_array, axis=0)
 
     preds = model.predict(img_array, verbose=0)
@@ -53,19 +63,19 @@ def explain_image(image_path, model, save_path=None):
 
     heatmap_resized = cv2.resize(heatmap, IMG_SIZE)
     heatmap_colored = cv2.applyColorMap(np.uint8(255 * heatmap_resized), cv2.COLORMAP_JET)
-    overlay = cv2.addWeighted(original_img, 0.6, heatmap_colored, 0.4, 0)
+    overlay_rgb = cv2.addWeighted(original_rgb, 0.6, cv2.cvtColor(heatmap_colored, cv2.COLOR_BGR2RGB), 0.4, 0)
 
     fig, axes = plt.subplots(1, 3, figsize=(15, 5))
 
-    axes[0].imshow(cv2.cvtColor(original_img, cv2.COLOR_BGR2RGB))
-    axes[0].set_title('Original')
+    axes[0].imshow(original_rgb)
+    axes[0].set_title('Original (CLAHE)')
     axes[0].axis('off')
 
     axes[1].imshow(heatmap, cmap='jet')
     axes[1].set_title('Grad-CAM Heatmap')
     axes[1].axis('off')
 
-    axes[2].imshow(cv2.cvtColor(overlay, cv2.COLOR_BGR2RGB))
+    axes[2].imshow(overlay_rgb)
     axes[2].set_title(f'Overlay: {label} ({confidence * 100:.1f}%)')
     axes[2].axis('off')
 

@@ -2,7 +2,9 @@ import os
 import shutil
 import random
 import glob
-import json
+
+import cv2
+import numpy as np
 
 random.seed(42)
 
@@ -15,6 +17,13 @@ SYNTHETIC_SB_DIR = os.path.join(BASE, 'Spina_Bifida')
 
 TRAIN_RATIO = 0.7
 VAL_RATIO = 0.15
+
+# Target mean brightness (grayscale) that HC18 Normal images cluster around.
+# Real SB panels from PMC papers can be much brighter due to white paper
+# backgrounds, labels, and scale bars.  Normalising them to this target
+# eliminates the brightness domain gap so the model cannot trivially
+# distinguish classes by global brightness.
+_BRIGHTNESS_TARGET = 45.0
 
 
 def get_image_files(directory, exclude_annotations=False):
@@ -35,10 +44,37 @@ def split_files(files, train_r, val_r):
     return files[:train_end], files[train_end:val_end], files[val_end:]
 
 
-def copy_files(file_list, dest_dir):
+def copy_files(file_list, dest_dir, normalise_brightness=False):
+    """Copy files to dest_dir, optionally normalising mean brightness.
+
+    ``normalise_brightness=True`` should be used for real SB panel images
+    that originate from published paper figures.  These often contain
+    bright white backgrounds, labels, and scale bars that produce a
+    ~2× brightness gap vs. the dark HC18 Normal images.  A global
+    brightness scale is applied so the mean grey-level of each image
+    is brought close to ``_BRIGHTNESS_TARGET``, matching the Normal class
+    distribution without altering the ultrasound structures themselves.
+    """
     os.makedirs(dest_dir, exist_ok=True)
     for f in file_list:
-        shutil.copy2(f, dest_dir)
+        if not normalise_brightness:
+            shutil.copy2(f, dest_dir)
+            continue
+
+        img = cv2.imread(f)
+        if img is None:
+            shutil.copy2(f, dest_dir)
+            continue
+
+        grey_mean = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY).mean()
+        if grey_mean > 0:
+            scale = _BRIGHTNESS_TARGET / grey_mean
+            img_norm = np.clip(img.astype(np.float32) * scale, 0, 255).astype(np.uint8)
+        else:
+            img_norm = img
+
+        out_path = os.path.join(dest_dir, os.path.basename(f))
+        cv2.imwrite(out_path, img_norm)
 
 
 def main():
@@ -91,9 +127,15 @@ def main():
 
     print(f"  Synthetic -> Train: {len(syn_train)}, Val: {len(syn_val)}")
 
-    copy_files(real_train + syn_train, os.path.join(OUTPUT, 'train', 'Spina_Bifida'))
-    copy_files(real_val + syn_val, os.path.join(OUTPUT, 'val', 'Spina_Bifida'))
-    copy_files(real_test, os.path.join(OUTPUT, 'test', 'Spina_Bifida'))
+    # Real SB panels come from published paper figures and have bright
+    # backgrounds/labels; normalise their brightness to match HC18 Normal.
+    # Synthetic images are derived from HC18 Normal images so their
+    # brightness already matches — copy them unchanged.
+    copy_files(real_train, os.path.join(OUTPUT, 'train', 'Spina_Bifida'), normalise_brightness=True)
+    copy_files(syn_train, os.path.join(OUTPUT, 'train', 'Spina_Bifida'))
+    copy_files(real_val, os.path.join(OUTPUT, 'val', 'Spina_Bifida'), normalise_brightness=True)
+    copy_files(syn_val, os.path.join(OUTPUT, 'val', 'Spina_Bifida'))
+    copy_files(real_test, os.path.join(OUTPUT, 'test', 'Spina_Bifida'), normalise_brightness=True)
 
     print("\n" + "=" * 50)
     print("DATASET SUMMARY")

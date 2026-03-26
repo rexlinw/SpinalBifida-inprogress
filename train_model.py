@@ -7,6 +7,7 @@ from collections.abc import Callable
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "1"
 os.environ["TF_DETERMINISTIC_OPS"] = "1"
 
+import cv2
 import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
@@ -28,17 +29,49 @@ def set_reproducible_seed(seed: int) -> None:
     tf.random.set_seed(seed)
 
 
+def _clahe_normalise(img_uint8: np.ndarray) -> np.ndarray:
+    """Apply per-channel CLAHE to a uint8 BGR/RGB image.
+
+    CLAHE (Contrast Limited Adaptive Histogram Equalization) normalises
+    local contrast, reducing the brightness gap between dark raw ultrasound
+    images (HC18 Normal class) and brighter extracted paper panels (real
+    Spina_Bifida class).  This is a standard preprocessing step for
+    medical ultrasound images and is lossless in the sense that it does
+    not introduce synthetic structure.
+    """
+    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+    lab = cv2.cvtColor(img_uint8, cv2.COLOR_RGB2LAB)
+    lab[:, :, 0] = clahe.apply(lab[:, :, 0])
+    return cv2.cvtColor(lab, cv2.COLOR_LAB2RGB)
+
+
+def make_clahe_preprocessor(arch_fn: Callable | None) -> Callable:
+    """Return a preprocessing function that applies CLAHE then the arch fn."""
+    def _preprocess(img: np.ndarray) -> np.ndarray:
+        # img arrives as float32 in [0, 255] from ImageDataGenerator
+        img_u8 = np.clip(img, 0, 255).astype(np.uint8)
+        img_norm = _clahe_normalise(img_u8).astype(np.float32)
+        if arch_fn is not None:
+            return arch_fn(img_norm)
+        return img_norm / 255.0
+    return _preprocess
+
+
 def get_preprocessing_setup(architecture: str) -> tuple[float | None, Callable | None]:
     arch = architecture.lower().strip()
     if arch == "vgg16":
-        return None, vgg16_preprocess_input
+        return None, make_clahe_preprocessor(vgg16_preprocess_input)
     if arch == "resnet50":
-        return None, resnet50_preprocess_input
+        return None, make_clahe_preprocessor(resnet50_preprocess_input)
     if arch == "efficientnetb0":
         # EfficientNetB0 in current Keras includes preprocessing layers.
         # Keep raw [0, 255] input to avoid double normalization.
-        return None, None
-    return 1.0 / 255, None
+        return None, make_clahe_preprocessor(None)
+    # For unknown architectures, apply CLAHE then normalise to [0, 1].
+    # This replaces the previous default rescale=1/255 path; CLAHE is now
+    # always applied before the per-pixel division to ensure consistent
+    # brightness-normalised input across all architectures.
+    return None, make_clahe_preprocessor(None)
 
 
 def main() -> None:

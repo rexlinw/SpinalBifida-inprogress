@@ -12,6 +12,20 @@ IMG_SIZE = CFG.image_size
 CLASS_NAMES = ['Normal', 'Spina_Bifida']
 
 
+def _clahe_normalise(img_bgr: np.ndarray) -> np.ndarray:
+    """Apply CLAHE on the L channel (LAB) to normalise brightness.
+
+    Matches the preprocessing applied during training so that inference
+    on bright paper panels produces the same effective input distribution
+    as the dark HC18 ultrasound images in the training set.
+    """
+    img_rgb = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
+    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+    lab = cv2.cvtColor(img_rgb, cv2.COLOR_RGB2LAB)
+    lab[:, :, 0] = clahe.apply(lab[:, :, 0])
+    return cv2.cvtColor(lab, cv2.COLOR_LAB2RGB)
+
+
 def predict_image(image_path, model):
     img = cv2.imread(image_path)
     if img is None:
@@ -19,7 +33,8 @@ def predict_image(image_path, model):
         return
 
     img_resized = cv2.resize(img, IMG_SIZE)
-    img_array = img_resized.astype('float32') / 255.0
+    img_normalised = _clahe_normalise(img_resized)
+    img_array = img_normalised.astype('float32') / 255.0
     img_batch = np.expand_dims(img_array, axis=0)
 
     predictions = model.predict(img_batch, verbose=0)
